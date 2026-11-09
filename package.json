@@ -1,0 +1,770 @@
+{
+  "name": "zovo-azure-storage-explorer",
+  "displayName": "Azure Storage & Azure Blob Storage Explorer (Blob, Queue, Table, Azurite)",
+  "description": "Free Azure Storage explorer for Azure Blob Storage, Queue Storage and Table Storage in VS Code, Cursor and Codespaces. Connect with a connection string, account key, SAS URL, Azurite in one click, or Entra ID: no Azure sign-in needed. Browse containers with paging, upload and download big files with a transfer queue, SAS URLs, access tiers, peek and send queue messages, query and edit table entities. Not made by Microsoft. No telemetry.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#10243E",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=18"
+  },
+  "categories": [
+    "Azure",
+    "Other"
+  ],
+  "keywords": [
+    "azure storage",
+    "azure blob storage",
+    "blob storage",
+    "storage explorer",
+    "azure blob",
+    "azurite",
+    "sas",
+    "queue storage",
+    "table storage",
+    "adls"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onFileSystem:azblob"
+  ],
+  "extensionKind": [
+    "workspace",
+    "ui"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "azureStorage.addConnection",
+        "title": "Add Connection",
+        "category": "Azure Storage",
+        "icon": "$(add)"
+      },
+      {
+        "command": "azureStorage.connectAzurite",
+        "title": "Connect to Azurite (Local Emulator)",
+        "category": "Azure Storage",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "azureStorage.startAzurite",
+        "title": "Start Azurite in a Terminal",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.editConnection",
+        "title": "Edit Connection",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.toggleReadOnly",
+        "title": "Toggle Read-only",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.removeConnection",
+        "title": "Remove Connection",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.refresh",
+        "title": "Refresh",
+        "category": "Azure Storage",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "azureStorage.loadMore",
+        "title": "Load More",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.openBlob",
+        "title": "Open",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.openBlobHead",
+        "title": "Open the First 1 MB (Read-only)",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.showDetails",
+        "title": "Properties, Tier and SAS URL",
+        "category": "Azure Storage",
+        "icon": "$(info)"
+      },
+      {
+        "command": "azureStorage.upload",
+        "title": "Upload Files...",
+        "category": "Azure Storage",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "azureStorage.uploadFolder",
+        "title": "Upload Folder...",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.download",
+        "title": "Download...",
+        "category": "Azure Storage",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "azureStorage.delete",
+        "title": "Delete...",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.rename",
+        "title": "Rename...",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.setTier",
+        "title": "Change Access Tier...",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.copyUrl",
+        "title": "Copy URL",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.generateSas",
+        "title": "Generate SAS URL...",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.createContainer",
+        "title": "Create Container...",
+        "category": "Azure Storage",
+        "icon": "$(add)"
+      },
+      {
+        "command": "azureStorage.deleteContainer",
+        "title": "Delete Container...",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.createQueueOrTable",
+        "title": "Create...",
+        "category": "Azure Storage",
+        "icon": "$(add)"
+      },
+      {
+        "command": "azureStorage.deleteQueueOrTable",
+        "title": "Delete...",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.openQueue",
+        "title": "Open Queue (Peek, Send, Dequeue)",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.openTable",
+        "title": "Open Table (Query and Edit)",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.sync",
+        "title": "Sync Folder with Dry Run... (Pro)",
+        "category": "Azure Storage",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "azureStorage.usageReport",
+        "title": "Usage and Cost Report (Pro)",
+        "category": "Azure Storage",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "azureStorage.cancelTransfer",
+        "title": "Cancel",
+        "category": "Azure Storage",
+        "icon": "$(close)"
+      },
+      {
+        "command": "azureStorage.retryTransfer",
+        "title": "Retry",
+        "category": "Azure Storage",
+        "icon": "$(debug-restart)"
+      },
+      {
+        "command": "azureStorage.cancelAllTransfers",
+        "title": "Cancel All Transfers",
+        "category": "Azure Storage",
+        "icon": "$(stop-circle)"
+      },
+      {
+        "command": "azureStorage.clearTransfers",
+        "title": "Clear Finished",
+        "category": "Azure Storage",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "azureStorage.openWalkthrough",
+        "title": "Get Started",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.supportDeveloper",
+        "title": "Support the developer",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.moreViewers",
+        "title": "More free tools",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.unlockWithSponsors",
+        "title": "Unlock Zovo Pro with GitHub Sponsors",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.getPro",
+        "title": "Get Zovo Pro (USD 19 once, all Zovo extensions)",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.payWithPayPal",
+        "title": "Pay for Zovo Pro with PayPal",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.enterLicenseKey",
+        "title": "Enter Zovo Pro license key",
+        "category": "Azure Storage"
+      },
+      {
+        "command": "azureStorage.removeLicense",
+        "title": "Remove Zovo Pro license from this editor",
+        "category": "Azure Storage"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "azureStorage",
+          "title": "Azure Storage",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "azureStorage": [
+        {
+          "id": "azureStorage.accounts",
+          "name": "Storage Accounts",
+          "icon": "media/activity.svg",
+          "contextualTitle": "Azure Storage"
+        },
+        {
+          "id": "azureStorage.transfers",
+          "name": "Transfers",
+          "icon": "media/activity.svg",
+          "contextualTitle": "Azure Storage",
+          "visibility": "collapsed"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "azureStorage.accounts",
+        "contents": "Browse Azure Blob Storage, Queues and Tables with a connection string, a SAS URL or an account key. No Azure sign-in needed. Keys stay in your OS keychain. Nothing connects until you expand a connection.\n[Add Connection](command:azureStorage.addConnection)\n[Connect to Azurite (local)](command:azureStorage.connectAzurite)\n[Get Started](command:azureStorage.openWalkthrough)"
+      },
+      {
+        "view": "azureStorage.transfers",
+        "contents": "Uploads and downloads show here with progress, Cancel and Retry."
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "azureStorage.addConnection",
+          "when": "view == azureStorage.accounts",
+          "group": "navigation@1"
+        },
+        {
+          "command": "azureStorage.refresh",
+          "when": "view == azureStorage.accounts",
+          "group": "navigation@2"
+        },
+        {
+          "command": "azureStorage.connectAzurite",
+          "when": "view == azureStorage.accounts",
+          "group": "1_more@1"
+        },
+        {
+          "command": "azureStorage.startAzurite",
+          "when": "view == azureStorage.accounts",
+          "group": "1_more@2"
+        },
+        {
+          "command": "azureStorage.openWalkthrough",
+          "when": "view == azureStorage.accounts",
+          "group": "1_more@3"
+        },
+        {
+          "command": "azureStorage.moreViewers",
+          "when": "view == azureStorage.accounts",
+          "group": "2_zovo@1"
+        },
+        {
+          "command": "azureStorage.supportDeveloper",
+          "when": "view == azureStorage.accounts",
+          "group": "2_zovo@2"
+        },
+        {
+          "command": "azureStorage.cancelAllTransfers",
+          "when": "view == azureStorage.transfers",
+          "group": "navigation@1"
+        },
+        {
+          "command": "azureStorage.clearTransfers",
+          "when": "view == azureStorage.transfers",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "azureStorage.upload",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(container|folder)$/",
+          "group": "inline@1"
+        },
+        {
+          "command": "azureStorage.showDetails",
+          "when": "view == azureStorage.accounts && viewItem == blob",
+          "group": "inline@1"
+        },
+        {
+          "command": "azureStorage.download",
+          "when": "view == azureStorage.accounts && viewItem == blob",
+          "group": "inline@2"
+        },
+        {
+          "command": "azureStorage.createContainer",
+          "when": "view == azureStorage.accounts && viewItem == group-blob",
+          "group": "inline@1"
+        },
+        {
+          "command": "azureStorage.createQueueOrTable",
+          "when": "view == azureStorage.accounts && viewItem =~ /^group-(queue|table)$/",
+          "group": "inline@1"
+        },
+        {
+          "command": "azureStorage.refresh",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(connection|connection-ro|group-.*|container|folder)$/",
+          "group": "9_refresh@1"
+        },
+        {
+          "command": "azureStorage.editConnection",
+          "when": "view == azureStorage.accounts && viewItem =~ /^connection/",
+          "group": "8_conn@1"
+        },
+        {
+          "command": "azureStorage.toggleReadOnly",
+          "when": "view == azureStorage.accounts && viewItem =~ /^connection/",
+          "group": "8_conn@2"
+        },
+        {
+          "command": "azureStorage.removeConnection",
+          "when": "view == azureStorage.accounts && viewItem =~ /^connection/",
+          "group": "8_conn@3"
+        },
+        {
+          "command": "azureStorage.openBlob",
+          "when": "view == azureStorage.accounts && viewItem == blob",
+          "group": "0_open@1"
+        },
+        {
+          "command": "azureStorage.openBlobHead",
+          "when": "view == azureStorage.accounts && viewItem == blob",
+          "group": "0_open@2"
+        },
+        {
+          "command": "azureStorage.showDetails",
+          "when": "view == azureStorage.accounts && viewItem == blob",
+          "group": "0_open@3"
+        },
+        {
+          "command": "azureStorage.upload",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(container|folder)$/",
+          "group": "2_transfer@1"
+        },
+        {
+          "command": "azureStorage.uploadFolder",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(container|folder)$/",
+          "group": "2_transfer@2"
+        },
+        {
+          "command": "azureStorage.download",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(blob|folder)$/",
+          "group": "2_transfer@3"
+        },
+        {
+          "command": "azureStorage.sync",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(container|folder)$/",
+          "group": "3_pro@1"
+        },
+        {
+          "command": "azureStorage.usageReport",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(container|folder)$/",
+          "group": "3_pro@2"
+        },
+        {
+          "command": "azureStorage.rename",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(blob|folder)$/",
+          "group": "4_edit@1"
+        },
+        {
+          "command": "azureStorage.setTier",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(blob|folder)$/",
+          "group": "4_edit@2"
+        },
+        {
+          "command": "azureStorage.copyUrl",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(blob|container)$/",
+          "group": "5_copy@1"
+        },
+        {
+          "command": "azureStorage.generateSas",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(blob|container)$/",
+          "group": "5_copy@2"
+        },
+        {
+          "command": "azureStorage.delete",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(blob|folder)$/",
+          "group": "8_delete@1"
+        },
+        {
+          "command": "azureStorage.createContainer",
+          "when": "view == azureStorage.accounts && viewItem == group-blob",
+          "group": "1_main@1"
+        },
+        {
+          "command": "azureStorage.deleteContainer",
+          "when": "view == azureStorage.accounts && viewItem == container",
+          "group": "8_delete@2"
+        },
+        {
+          "command": "azureStorage.createQueueOrTable",
+          "when": "view == azureStorage.accounts && viewItem =~ /^group-(queue|table)$/",
+          "group": "1_main@1"
+        },
+        {
+          "command": "azureStorage.openQueue",
+          "when": "view == azureStorage.accounts && viewItem == queue",
+          "group": "0_open@1"
+        },
+        {
+          "command": "azureStorage.openTable",
+          "when": "view == azureStorage.accounts && viewItem == table",
+          "group": "0_open@1"
+        },
+        {
+          "command": "azureStorage.deleteQueueOrTable",
+          "when": "view == azureStorage.accounts && viewItem =~ /^(queue|table)$/",
+          "group": "8_delete@1"
+        },
+        {
+          "command": "azureStorage.cancelTransfer",
+          "when": "view == azureStorage.transfers && viewItem =~ /^transfer-(queued|running)$/",
+          "group": "inline@1"
+        },
+        {
+          "command": "azureStorage.retryTransfer",
+          "when": "view == azureStorage.transfers && viewItem =~ /^transfer-(failed|cancelled)$/",
+          "group": "inline@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "azureStorage.loadMore",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.openBlob",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.openBlobHead",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.showDetails",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.upload",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.uploadFolder",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.download",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.delete",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.rename",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.setTier",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.copyUrl",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.generateSas",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.createContainer",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.deleteContainer",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.createQueueOrTable",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.deleteQueueOrTable",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.openQueue",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.openTable",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.sync",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.usageReport",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.cancelTransfer",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.retryTransfer",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.toggleReadOnly",
+          "when": "false"
+        },
+        {
+          "command": "azureStorage.removeConnection",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Azure Storage",
+      "properties": {
+        "azureStorage.pageSize": {
+          "type": "integer",
+          "default": 1000,
+          "minimum": 50,
+          "maximum": 5000,
+          "description": "Containers, blobs, queues and tables listed per page in the tree. A \"Load more\" row fetches the next page."
+        },
+        "azureStorage.maxTextPreviewMB": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 256,
+          "description": "Text blobs larger than this ask first: show the first 1 MB (one range request) or download the whole blob."
+        },
+        "azureStorage.confirmOpenOverMB": {
+          "type": "number",
+          "default": 200,
+          "minimum": 1,
+          "description": "Binary blobs larger than this ask before they are downloaded to open."
+        },
+        "azureStorage.blockSizeMB": {
+          "type": "number",
+          "default": 8,
+          "minimum": 1,
+          "maximum": 4000,
+          "description": "Block size for uploads of large files. It grows for very large files so that there are at most 50,000 blocks."
+        },
+        "azureStorage.concurrency": {
+          "type": "integer",
+          "default": 4,
+          "minimum": 1,
+          "maximum": 16,
+          "description": "Blocks of one file sent at the same time."
+        },
+        "azureStorage.parallelTransfers": {
+          "type": "integer",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 8,
+          "description": "Files in the transfer queue that upload or download at the same time."
+        },
+        "azureStorage.requestTimeoutSeconds": {
+          "type": "integer",
+          "default": 30,
+          "minimum": 5,
+          "maximum": 600,
+          "description": "How long to wait for one answer from the storage endpoint before it is retried and then shown as an error."
+        },
+        "azureStorage.syncExcludes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            ".git/**",
+            "node_modules/**",
+            ".DS_Store",
+            "Thumbs.db"
+          ],
+          "description": "Glob patterns that folder uploads and sync skip (** matches folders)."
+        },
+        "azureStorage.queueMessageEncoding": {
+          "type": "string",
+          "enum": [
+            "text",
+            "base64"
+          ],
+          "default": "text",
+          "description": "How the queue page sends a new message at first: as plain text, or Base64-encoded (what Azure Functions queue triggers expect). The page remembers your last choice."
+        },
+        "azureStorage.pricePerGBMonth": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "Hot": {
+              "type": "number"
+            },
+            "Cool": {
+              "type": "number"
+            },
+            "Cold": {
+              "type": "number"
+            },
+            "Archive": {
+              "type": "number"
+            }
+          },
+          "description": "Your storage prices in USD per GB-month for the usage report, for example {\"Hot\": 0.02}. Empty uses list prices (LRS, East US)."
+        },
+        "azureStorage.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask for a rating after 2 blobs opened without an error, in 2 sessions at least 4 hours apart. \"Later\" asks once more after 7 days, \"No thanks\" never asks again. Never after an error. Nothing is sent anywhere."
+        },
+        "azureStorage.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Rate, More free tools and Sponsor links at the bottom of the details, queue, table and report pages. Nothing is sent anywhere."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "azureStorage.start",
+        "title": "Get started with Azure Storage Explorer",
+        "description": "Connect, browse, transfer, and work with queues and tables.",
+        "steps": [
+          {
+            "id": "connect",
+            "title": "Add a connection",
+            "description": "Paste a connection string or a SAS URL, type an account name and key, or click Azurite for the local emulator. No Azure sign-in is needed. Keys go to the OS keychain.\n[Add Connection](command:azureStorage.addConnection)\n[Connect to Azurite](command:azureStorage.connectAzurite)",
+            "media": {
+              "image": "images/screenshot-dark.png",
+              "altText": "The Storage Accounts view with a container open and the properties of a blob."
+            },
+            "completionEvents": [
+              "onCommand:azureStorage.addConnection",
+              "onCommand:azureStorage.connectAzurite"
+            ]
+          },
+          {
+            "id": "browse",
+            "title": "Browse and open",
+            "description": "Expand a container. Blobs load 1,000 at a time with folders by \"/\", so a container with millions of blobs opens at once. Click a blob to open it: text and JSON in an editor tab, PDFs, spreadsheets and Parquet in the matching viewer.",
+            "media": {
+              "markdown": "walkthrough/browse.md"
+            }
+          },
+          {
+            "id": "transfer",
+            "title": "Upload and download",
+            "description": "Drag files from your desktop onto a container or folder. Big files upload in blocks with progress. The Transfers view has Cancel and Retry for each file.",
+            "media": {
+              "markdown": "walkthrough/transfer.md"
+            }
+          },
+          {
+            "id": "queues",
+            "title": "Queues and tables",
+            "description": "Click a queue to peek, send, dequeue or clear messages. Click a table to query it with an OData filter and edit entities in a grid.",
+            "media": {
+              "markdown": "walkthrough/queues.md"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.js --production",
+    "test": "node scripts/build.js --production && node --test --test-concurrency=1 test/*.test.js",
+    "package": "npm run build && npx -y @vscode/vsce package --no-dependencies --no-gitHubIssueLinking -o dist/"
+  },
+  "dependencies": {
+    "@azure/storage-blob": "12.32.0",
+    "@azure/storage-queue": "12.30.0",
+    "@azure/data-tables": "13.3.2"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "@types/vscode": "~1.90.0"
+  },
+  "homepage": "https://github.com/theluckystrike/azure-storage-explorer-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/theluckystrike/azure-storage-explorer-vscode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/azure-storage-explorer-vscode"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike"
+  }
+}
