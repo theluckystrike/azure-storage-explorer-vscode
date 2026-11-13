@@ -115,3 +115,9 @@ Open a [format request](https://github.com/theluckystrike/azure-storage-explorer
 - [Parquet Grid Viewer: Large File Explorer, Schema & Nested Data (Zovo)](https://marketplace.visualstudio.com/items?itemName=zovo.zovo-parquet-viewer) Free, no Python, no sign-in, works offline. Opens Parquet files as a fast grid: only the footer and the rows on screen are read, so large files open at once. Exact DECIMAL and INT64 values, INT96 timestamps, nested LIST, MAP and STRUCT, every codec (Snappy, Gzip, Zstd, Brotli, LZ4). Filter, sort, search, copy as CSV, JSON or Markdown, export to CSV.
 
 See [all Zovo extensions on the Marketplace](https://marketplace.visualstudio.com/publishers/zovo).
+
+## More from zovo
+
+- [All free zovo VS Code extensions](https://marketplace.visualstudio.com/publishers/zovo) — file viewers, database clients, formatters. Offline, no telemetry, no sign-up.
+- [Full MCP server catalogue](https://theluckystrike.github.io/mcp/) — local-first MCP servers for back-office work: invoices, VAT, PDFs, spreadsheets, payroll.
+- [Hosted no-install MCP endpoints](https://mcp.zovo.one) — paste a URL in Claude / Cursor, nothing to install.
